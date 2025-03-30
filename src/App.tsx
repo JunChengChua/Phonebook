@@ -1,11 +1,10 @@
 import React from 'react';
 import { Outlet } from "react-router-dom";
+import Box from './Box';
 
-function App(){
+function App() {
     return (
         <div>
-            <header>App</header>
-            <p>test</p>
             <Outlet />
         </div>
     )

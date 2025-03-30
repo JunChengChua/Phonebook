@@ -1,11 +1,8 @@
 import React from 'react';
 
 function Box() {
-    return(
-        <div>
-            <header>Box</header>
-            <p>Testing Box</p>
-        </div>
+    return (
+        <h1>Hello World</h1>
     )
 }
 
