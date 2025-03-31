@@ -22,5 +22,7 @@ let router = createBrowserRouter ([
 
 //Renders the ROUTING SYSTEM to the DOM, which by default renders App.tsx
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <RouterProvider router={router}/>
+    <React.StrictMode>
+        <RouterProvider router={router}/>
+    </React.StrictMode>
 );

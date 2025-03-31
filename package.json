@@ -23,16 +23,17 @@
     "glob": "^11.0.1",
     "inflight": "^1.0.6",
     "phonebook": "file:",
-    "postcss": "^8.5.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.4.0",
-    "tailwindcss": "^4.0.17",
     "vite": "^6.2.3"
   },
   "devDependencies": {
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
-    "@vitejs/plugin-react": "^4.3.4"
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.17"
   }
 }
