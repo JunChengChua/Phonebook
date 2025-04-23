@@ -32,20 +32,20 @@ function App() {
             </div>
             
             {/* Body */}
-            <div className="flex flex-grow flex-row">
+            <div className="flex w-screen">
                 {/* Filters */}
-                <div>
-
+                <div className="flex-1/6">
+                    Filter
                 </div>
                 
                 {/* Main Table */}
-                <div>
-
+                <div className="flex-4/6">
+                    Main Table
                 </div>
                 
                 {/* Collapsable Information Secton */}
-                <div>
-
+                <div className="flex-1/6">
+                    Info Section
                 </div>
             </div>
         </div>
