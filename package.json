@@ -20,8 +20,12 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.17",
     "@tailwindcss/vite": "^4.0.17",
+    "axios": "^1.8.4",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "glob": "^11.0.1",
     "inflight": "^1.0.6",
+    "pg": "^8.15.1",
     "phonebook": "file:",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

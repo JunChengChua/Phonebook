@@ -13,7 +13,9 @@ let router = createBrowserRouter ([
         children: [
             {
                 path: "/",
-                element: <Box />
+                element: <Box username={''} name={''} title={''} department={''} phoneNumber={''} mail={''} onClick={function (): void {
+                    throw new Error('Function not implemented.');
+                } } />
             },
         ],
     },
@@ -26,3 +28,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <RouterProvider router={router}/>
     </React.StrictMode>
 );
+
+//Functions to code ------------------------------------------------------------
+// - Keep selected user highlighted
+// - Add a search button next to the search bar
+// - Decide on a design for displaying the information
+// - Fix up Departments & Favorites Buttons

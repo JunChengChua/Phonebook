@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+::-webkit-scrollbar {
+    background-color: transparent;
+    display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.hide-scrollbar {
+    scrollbar-width: none;
+}
+
+/* Ensure scrolling still works */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+}
