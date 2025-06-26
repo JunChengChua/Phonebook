@@ -16,16 +16,27 @@ const pool = new Pool({
     port: 5432,
   });
 
-  app.get("/api/data", async (req, res) => {
-    try {
-      const result = await pool.query('SELECT * FROM "People"');
-      res.json(result.rows);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+app.get("/api/data", async (req, res) => {
+  try {
+    const {search} = req.query;
+    let query = 'SELECT * FROM "People"'; // Initialize the base query
+    let values = [];
+
+    if (search) {
+      query += ' WHERE "name" ILIKE $1 OR "department" ILIKE $1'; //Search in "name" or "department"
+      values.push(`%${search}%`); //Adds wildcards to the search term, done this way to prevent SQL injection
     }
-  });
-  
-  app.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}`);
-  });
+
+    query += ' ORDER BY "name" ASC'; //Sort by "name" in ascending order
+
+    const result = await pool.query(query, values);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server listening on http://localhost:${port}`);
+});

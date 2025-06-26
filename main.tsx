@@ -13,7 +13,9 @@ let router = createBrowserRouter ([
         children: [
             {
                 path: "/",
-                element: <Box />
+                element: <Box username={''} name={''} title={''} department={''} phoneNumber={''} mail={''} onClick={function (): void {
+                    throw new Error('Function not implemented.');
+                } } />
             },
         ],
     },
