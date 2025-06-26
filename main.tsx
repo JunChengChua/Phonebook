@@ -33,3 +33,4 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 // - Keep selected user highlighted
 // - Add a search button next to the search bar
 // - Decide on a design for displaying the information
+// - Fix up Departments & Favorites Buttons
