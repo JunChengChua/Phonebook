@@ -28,3 +28,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <RouterProvider router={router}/>
     </React.StrictMode>
 );
+
+//Functions to code ------------------------------------------------------------
+// - Keep selected user highlighted
+// - Add a search button next to the search bar
+// - Decide on a design for displaying the information
