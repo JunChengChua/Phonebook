@@ -24,7 +24,7 @@ const Box: React.FC<BoxProps> = ({ username, name, title, department, phoneNumbe
             <div>
                 <h3 className="font-bold text-lg">{name}</h3>
                 <p className="text-sm text-gray-600">Title: {title}</p>
-                <p className="text-sm text-gray-600">Department: {department}</p>
+                <p className="text-sm text-gray-600">Dept: {department}</p>
             </div>
         </div>
     );

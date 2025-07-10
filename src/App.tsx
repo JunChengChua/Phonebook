@@ -16,10 +16,12 @@ function App() {
     
     const [data, setData] = useState<Row[]>([]);
     const [selectedBox, setSelectedBox] = useState<Row | null>(null); //State to manage the selected box
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [searchInput, setSearchInput] = useState<string>(''); //State to manage the search input
     const [searched, setSearched] = useState<boolean>(false); //State to manage the searched data
     const [infoSelected, setInfoSelected] = useState<boolean>(false); //State to manage the selected info
     const [isHoveringEmptySpace, setIsHoveringEmptySpace] = useState(false); //State to manage the hover state of the empty space
+    const [isFavorite, setIsFavorite] = useState(false); //For the favorite star button
 
     const handleSearch = () => {
         axios                                           //Axios call: Sends an HTTP GET request to our Node.js API endpoint
@@ -111,10 +113,11 @@ function App() {
                         
                         
                         {/*Search Bar*/}
-                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2/3 text-center">
+                        <div className="flex flex-row absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                                        w-2/3 text-center">
                             <input 
                                 className="px-4 py-2 border-2 border-black rounded-xl focus:outline-none focus:ring-2 
-                                        focus:ring-[#a4defc] focus:border-transparent w-full" 
+                                        focus:ring-[#a4defc] focus:border-transparent w-9/10" 
                                 type="text" 
                                 placeholder="Enter partial or full name..."
                                 value={searchInput}
@@ -126,6 +129,18 @@ function App() {
                                     }
                                 }}
                             />
+                            <button
+                                type="button"
+                                className="ml-2 p-2 bg-[#bdbdbd] hover:bg-[#a4defc] transition border-2 border-black rounded-xl w-1/10
+                                            hover:cursor-pointer flex items-center justify-center"
+                                onClick={() => {
+                                    setSearched(true);
+                                    handleSearch();
+                                }}
+                                aria-label="Search"
+                            >
+                                <span className="material-symbols-outlined text-[2rem]">search</span>
+                            </button>
                         </div>
                     </div>
                 )}
@@ -134,10 +149,10 @@ function App() {
                     //Search Function & Results
                     <div className="flex flex-col flex-grow items-center h-full">
                         {/*Search Bar*/}
-                        <div className="mt-10 w-2/3 text-center">
+                        <div className="flex flex-row mt-10 w-2/3 text-center">
                             <input 
                                 className="px-4 py-2 border-2 border-black rounded-xl focus:outline-none focus:ring-2 
-                                        focus:ring-[#a4defc] focus:border-transparent w-full" 
+                                        focus:ring-[#a4defc] focus:border-transparent w-9/10" 
                                 type="text" 
                                 placeholder="Enter partial or full name..."
                                 value={searchInput}
@@ -149,6 +164,19 @@ function App() {
                                     }
                                 }}
                             />
+
+                            <button
+                                type="button"
+                                className="ml-2 p-2 bg-[#bdbdbd] hover:bg-[#a4defc] transition border-2 border-black rounded-xl w-1/10
+                                            hover:cursor-pointer flex items-center justify-center"
+                                onClick={() => {
+                                    setSearched(true);
+                                    handleSearch();
+                                }}
+                                aria-label="Search"
+                            >
+                                <span className="material-symbols-outlined text-[2rem]">search</span>
+                            </button>
                         </div>
 
                         {/*Container for Results*/}
@@ -165,6 +193,7 @@ function App() {
                                         mail={row.mail} 
                                         onClick={() => {
                                             setSelectedBox(row); //Set the selected box on click
+                                            setSelectedIndex(index); //Set the selected index
                                             setInfoSelected(true); //Set info selected state to true
                                         }} 
                                     />
@@ -182,10 +211,10 @@ function App() {
                             {/* Search Function & Results */}
                             <div className="flex flex-col flex-grow items-center">
                                 {/*Search Bar*/}
-                                <div className="mt-10 w-2/3 text-center">
+                                <div className="flex flex-row mt-10 w-2/3 text-center">
                                     <input 
                                         className="px-4 py-2 border-2 border-black rounded-xl focus:outline-none focus:ring-2 
-                                                focus:ring-[#a4defc] focus:border-transparent w-full" 
+                                                focus:ring-[#a4defc] focus:border-transparent w-9/10" 
                                         type="text" 
                                         placeholder="Enter partial or full name..."
                                         value={searchInput}
@@ -197,34 +226,163 @@ function App() {
                                             }
                                         }}
                                     />
+
+                                    <button
+                                        type="button"
+                                        className="ml-2 p-2 bg-[#bdbdbd] hover:bg-[#a4defc] transition border-2 border-black rounded-xl w-1/10
+                                                    hover:cursor-pointer flex items-center justify-center"
+                                        onClick={() => {
+                                            setSearched(true);
+                                            handleSearch();
+                                        }}
+                                        aria-label="Search"
+                                    >
+                                        <span className="material-symbols-outlined text-[2rem]">search</span>
+                                    </button>
                                 </div>
 
                                 {/*Container for Results*/}
                                 <div className="flex justify-center w-full pl-4 pr-4 flex-grow min-h-0">
-                                    <div className="grid grid-cols-2 auto-rows-[126px] gap-4 mt-10 w-full max-h-[65vh] overflow-y-auto">
+                                    <div className="grid grid-cols-2 auto-rows-[128px] gap-4 mt-10 w-full max-h-[65vh] overflow-y-auto pl-1 pr-1 pb-1.5">
                                         {data.map((row, index) => ( //Map through the data and create a Box for each entry
-                                            <Box 
-                                                key={index} 
-                                                username={row.username} 
-                                                name={row.name} 
-                                                title={row.title} 
-                                                department={row.department} 
-                                                phoneNumber={row.phoneNumber} 
-                                                mail={row.mail} 
-                                                onClick={() => {
-                                                    setSelectedBox(row) //Set the selected box on click
-                                                    setInfoSelected(true); //Set info selected state to true
-                                                }} 
-                                            />
+                                            <div key={index} className="shadow-md bg-transparent rounded-lg"> {/* Shadow on the grid cell */}
+                                                <Box 
+                                                    username={row.username}
+                                                    name={row.name}
+                                                    title={row.title}
+                                                    department={row.department}
+                                                    phoneNumber={row.phoneNumber}
+                                                    mail={row.mail}
+                                                    onClick={() => {
+                                                        setSelectedBox(row);
+                                                        setSelectedIndex(index);
+                                                        setInfoSelected(true);
+                                                    }}
+                                                />
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/*Details*/}
+                        {/* Details */}
                         <div className="w-[50%] h-[100%] bg-[#ffffff55] shadow-lg rounded-md">
+                            {/* Button Container */}
+                            <div className="flex flex-row justify-between pt-4 pl-4 pr-4 items-center">
+                                {/* Navigation Buttons */}
+                                <div className="flex flex-row w-[85%] gap-2">
+                                    {/* Previous Button */}
+                                    <button
+                                        type="button"
+                                        className="p-2 flex items-center justify-center rounded-xl bg-[#bdbdbd] hover:bg-[#a4defc] transition
+                                            hover:cursor-pointer border-2 border-black group w-[50%]"
+                                        aria-label="Previous"
+                                        onClick={() => {
+                                            if (
+                                                selectedIndex !== null &&
+                                                selectedIndex > 0
+                                            ) {
+                                                setSelectedIndex(selectedIndex - 1);
+                                                setSelectedBox(data[selectedIndex - 1]);
+                                            }
+                                        }}
+                                        disabled={selectedIndex === null || selectedIndex <= 0}
+                                    >
+                                        <span className="material-symbols-outlined text-[2rem]">arrow_back_ios_new</span>
+                                    </button>
+                                    
+                                    {/* Next Button */}
+                                    <button
+                                        type="button"
+                                        className="p-2 flex items-center justify-center rounded-xl bg-[#bdbdbd] hover:bg-[#a4defc] transition
+                                                hover:cursor-pointer border-2 border-black group w-[50%]"
+                                        aria-label="Next"
+                                        onClick={() => {
+                                            if (
+                                                selectedIndex !== null &&
+                                                selectedIndex < data.length - 1
+                                            ) {
+                                                setSelectedIndex(selectedIndex + 1);
+                                                setSelectedBox(data[selectedIndex + 1]);
+                                            }
+                                        }}
+                                        disabled={selectedIndex === null || selectedIndex >= data.length - 1}
+                                    >
+                                        <span className="material-symbols-outlined text-[2rem]">arrow_forward_ios</span>
+                                    </button>
+                                </div>
+                                
+                                {/* Miscellaneous Buttons */}
+                                <div className="flex flex-row w-[15%] justify-end gap-3.5">
+                                    {/* Favorite Button */}
+                                    <button
+                                        type="button"
+                                        className="p-2 flex items-center justify-center rounded-[100%] bg-[#bdbdbd] hover:bg-[#a4defc] transition
+                                                hover:cursor-pointer border-2 border-black group"
+                                        aria-label="Favorite"
+                                        onClick={() => {
+                                            setIsFavorite(!isFavorite);
+                                        }}
+                                    >
+                                        <span
+                                            className="material-symbols-outlined text-[2rem] text-black group-hover:text-black rounded-[100%]"
+                                            style={{
+                                                fontVariationSettings: `'FILL' ${isFavorite ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`
+                                            }}
+                                        >
+                                            star
+                                        </span>
+                                    </button>
+                                    
+                                    {/* Close Button */}
+                                    <button
+                                        type="button"
+                                        className="p-2 flex items-center justify-center rounded-[100%] bg-[#bdbdbd] hover:bg-[#a4defc] transition
+                                                hover:cursor-pointer border-2 border-black group"
+                                        aria-label="Close"
+                                        onClick={() => {
+                                            setInfoSelected(false);
+                                        }}
+                                    >
+                                        <span className="material-symbols-outlined text-[2rem] transition-transform duration-500 group-hover:rotate-[270deg]">close</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            {/* Primary Info Container */}
+                            <div className="grid grid-cols-5 justify-center p-4 gap-x-4 h-[50%]">
+                                {/* Image */}
+                                <div className="flex items-center justify-center h-full col-span-2">
+                                    <img
+                                        src="images/Silhouette.jpg"
+                                        alt="Profile"
+                                        className="h-full w-auto object-cover rounded-2xl shadow-md"
+                                    />
+                                </div>
 
+                                {/* Primary Information */}
+                                <div className="col-span-3 grid grid-rows-4 w-full gap-2">
+                                    {/* Name */}
+                                    <div className="flex justify-center items-center text-center w-full font-bold text-[2.25em]
+                                                    bg-[#f9fafb86] shadow-md rounded-lg row-span-2"
+                                    >
+                                        {selectedBox?.name}
+                                    </div>
+
+                                    {/* Department */}
+                                    <div className="flex items-center justify-center text-center w-full text-[1.5em] font-bold
+                                                    bg-[#f9fafb86] shadow-md rounded-lg row-span-1">
+                                        {selectedBox?.title}
+                                    </div>
+
+                                    {/* Title */}
+                                    <div className="flex items-center justify-center text-center w-full text-[1.5em] font-bold
+                                                    bg-[#f9fafb86] shadow-md rounded-lg row-span-1">
+                                        {selectedBox?.department}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}
