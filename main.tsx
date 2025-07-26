@@ -2,22 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './src/App.tsx';
 import Box from './src/Box.tsx';
+import Results from './src/Results.tsx';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import './styles/indexStyle.css';
+import { SearchProvider } from './src/SearchContext.tsx';
+import Information from './src/Information.tsx';
 
 //Creates/Defines the Router
 let router = createBrowserRouter ([
     {
         path: "/",
         element: <App />,
-        children: [
-            {
-                path: "/",
-                element: <Box username={''} name={''} title={''} department={''} phoneNumber={''} mail={''} onClick={function (): void {
-                    throw new Error('Function not implemented.');
-                } } />
-            },
-        ],
+    },
+    {
+        path: "/results",
+        element: <Results />
+    },
+    {
+        path: "/information",
+        element: <Information />
     },
 ]);
 
@@ -25,7 +28,9 @@ let router = createBrowserRouter ([
 //Renders the ROUTING SYSTEM to the DOM, which by default renders App.tsx
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <RouterProvider router={router}/>
+        <SearchProvider>
+            <RouterProvider router={router}/>
+        </SearchProvider>
     </React.StrictMode>
 );
 
