@@ -5,10 +5,11 @@ import Logo from './Logo';
 
 const Header: React.FC = () => {
     const [isHoveringEmptySpace, setIsHoveringEmptySpace] = useState(false); //State to manage the hover state of the empty space
-    const [searchInput, setSearchInput] = useState<string>(''); //State to manage the search input
-    
+    const [isHoveringFavorites, setIsHoveringFavorites] = useState(false);
+    const [isHoveringDepartments, setIsHoveringDepartments] = useState(false);
+
     return (
-        <div className="grid grid-cols-3 items-center h-[13%] m-4 mb-2.5 rounded-md bg-[#ffffff55] shadow-lg"> 
+        <div className="grid grid-cols-3 items-center h-[10%] m-4 mb-2.5 rounded-md bg-[#ffffff55] shadow-lg"> 
             {/* Logo & Name */}
             <Logo />
             
@@ -32,9 +33,13 @@ const Header: React.FC = () => {
                         onMouseLeave={() => setIsHoveringEmptySpace(false)}>
                     </div>
                     
-                    <button className={`text-black cursor-pointer h-full w-40 font-bold text-[1.15em] transition-all duration-300 
-                                        ease-in-out hover:bg-[#a4defc] ${isHoveringEmptySpace ? '' : 'group-hover:w-30 hover:w-50'}
-                                        `}
+                    <button 
+                        className={`text-black cursor-pointer h-full w-40 font-bold transition-all duration-300 
+                                    ease-in-out hover:bg-[#a4defc]
+                                    ${isHoveringFavorites ? 'text-base' : 'text-lg'}
+                                    ${isHoveringEmptySpace ? '' : 'group-hover:w-30 hover:w-50'}`}
+                        onMouseEnter={() => setIsHoveringDepartments(true)}
+                        onMouseLeave={() => setIsHoveringDepartments(false)}
                     >
                         Departments
                     </button>
@@ -45,9 +50,13 @@ const Header: React.FC = () => {
                     {/* Custom Border 2*/}
                     <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-[70%] w-[1.15px] bg-[#d3d3d3]"></div>
 
-                    <button className={`text-black cursor-pointer h-full w-40 font-bold text-[1.15em] transition-all duration-300 
-                                        ease-in-out hover:bg-[#a4defc] ${isHoveringEmptySpace ? '' : 'group-hover:w-30 hover:w-50'}
-                                        `}
+                    <button 
+                        className={`text-black cursor-pointer h-full w-40 font-bold transition-all duration-300 
+                                    ease-in-out hover:bg-[#a4defc]
+                                    ${isHoveringDepartments ? 'text-base' : 'text-lg'}
+                                    ${isHoveringEmptySpace ? '' : 'group-hover:w-30 hover:w-50'}`}
+                        onMouseEnter={() => setIsHoveringFavorites(true)}
+                        onMouseLeave={() => setIsHoveringFavorites(false)}
                     >
                         Favorites
                     </button>

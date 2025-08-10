@@ -14,3 +14,11 @@
 .hide-scrollbar {
     -ms-overflow-style: none;
 }
+
+.grid-top-shadow {
+  box-shadow: 0 -12px 16px -12px rgba(0,0,0,0.02);
+}
+
+.side-shadow {
+  box-shadow: 5px 0 10px -5px black, -5px 0 10px -5px black;
+}

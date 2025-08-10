@@ -31,7 +31,7 @@ function App() {
         <div className="flex flex-col h-screen bg-gradient-to-b from-[#dadadaa7] from-35% to-[#9eddfc] w-full 
                         bg-auto relative"> 
             {/* Header Section */}
-            <div className="grid grid-cols-3 items-center h-[13%] m-4 mb-2.5 rounded-md bg-[#ffffff55] shadow-lg"> 
+            <div className="grid grid-cols-3 items-center h-[10%] m-4 mb-2.5 rounded-md bg-[#ffffff55] shadow-lg"> 
                 {/* Logo & Name */}
                 <div className="flex flex-row gap-[0.5vw] px-[1vw] py-4 flex-shrink-0 cursor-pointer" 
                     onClick={() => 
@@ -92,7 +92,7 @@ function App() {
             </div>
 
             {/* Body */}
-            <div className={"flex flex-grow h-[87%] m-4 mt-2.5 rounded-md bg-[#ffffff55] shadow-lg"}>    
+            <div className={"flex flex-grow h-[87%] m-4 mt-2.5 rounded-md bg-[#ffffff65] shadow-lg"}>    
                 <div className="flex flex-col flex-grow items-center justify-center">
                     {/* Word "Phonebook" */}
                     <h1 className="absolute top-[39%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-[5em]">
@@ -117,7 +117,7 @@ function App() {
                         />
                         <button
                             type="button"
-                            className="ml-2 p-2 bg-[#bdbdbd] hover:bg-[#a4defc] transition border-2 border-black rounded-xl w-1/10
+                            className="ml-2 p-2 bg-[#dbdbdb] hover:bg-[#a4defc] transition border-2 border-black rounded-xl w-1/10
                                         hover:cursor-pointer flex items-center justify-center"
                             onClick={() => {
                                 handleSearch();

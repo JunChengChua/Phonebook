@@ -12,7 +12,7 @@ interface BoxProps {
 
 const Box: React.FC<BoxProps> = ({ username, name, title, department, phoneNumber, mail, onClick}) => {
     return (
-        <div className="flex flex-row p-4 border-none rounded-lg bg-[#f9fafb86] hover:bg-[#b3b4b6] cursor-pointer"
+        <div className="flex flex-row p-4 border-none rounded-lg bg-[#f9fafb86] hover:bg-[#b3b4b6] cursor-pointer grid-top-shadow"
             onClick={onClick}>
             
             {/*Picture Div*/}

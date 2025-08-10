@@ -31,7 +31,7 @@ function Results() {
             <Header />
 
             {/* Body */}
-            <div className={"flex flex-grow h-[87%] m-4 mt-2.5 rounded-md bg-[#ffffff55] shadow-lg"}>
+            <div className={"flex flex-grow h-[87%] m-4 mt-2.5 rounded-md bg-[#ffffff65] shadow-lg"}>
                 {/* Search Function & Results */}
                 <div className="flex flex-col flex-grow items-center h-full">
                     {/*Search Bar*/}
@@ -64,23 +64,25 @@ function Results() {
                     </div>
 
                     {/*Container for Results*/}
-                    <div className="flex justify-center w-full pl-4 pr-4 flex-grow overflow-hidden">
-                        <div className="grid grid-cols-4 auto-rows-[126px] gap-4 mt-10 w-full h-full overflow-y-auto" id='resultsCard'>
+                    <div className="flex justify-center w-full pl-4 pr-4 flex-grow min-h-0">
+                        <div className="grid grid-cols-4 auto-rows-[128px] gap-4 mt-9 w-full max-h-[65vh] overflow-y-auto pl-1 pr-1 pb-1.5 pt-1">
                             {data.map((row, index) => ( //Map through the data and create a Box for each entry
-                                <Box 
-                                    key={index} 
-                                    username={row.username} 
-                                    name={row.name} 
-                                    title={row.title} 
-                                    department={row.department} 
-                                    phoneNumber={row.phoneNumber} 
-                                    mail={row.mail} 
-                                    onClick={() => {
-                                        setSelectedBox(row); //Set the selected box on click
-                                        setSelectedIndex(index); //Set the selected index
-                                        navigate("/information");
-                                    }} 
-                                />
+                                <div key={index} className="shadow-md bg-transparent rounded-lg">
+                                    <Box 
+                                        key={index} 
+                                        username={row.username} 
+                                        name={row.name} 
+                                        title={row.title} 
+                                        department={row.department} 
+                                        phoneNumber={row.phoneNumber} 
+                                        mail={row.mail} 
+                                        onClick={() => {
+                                            setSelectedBox(row); //Set the selected box on click
+                                            setSelectedIndex(index); //Set the selected index
+                                            navigate("/information");
+                                        }} 
+                                    />
+                                </div>
                             ))}
                         </div>
                     </div>
