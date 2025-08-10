@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Box from './Box';
@@ -10,13 +10,38 @@ function Results() {
     const [searchInput, setSearchInput] = useState<string>(''); //State to manage the search input
     
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const updateURLParams = (params: Record<string, string | number | undefined>) => {
+        const searchParams = new URLSearchParams(location.search);
+        Object.entries(params).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== "") {
+                searchParams.set(key, String(value));
+            } else {
+                searchParams.delete(key);
+            }
+        });
+        navigate({ pathname: "/results", search: searchParams.toString() });
+    };
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const search = searchParams.get("search") || "";
+        if (search) {
+            setSearchInput(search);
+            axios
+                .get(`http://localhost:5000/api/data?search=${encodeURIComponent(search)}`)
+                .then((response) => setData(response.data))
+                .catch((err) => console.error(err));
+        }
+    }, [location.search]);
 
     const handleSearch = () => {
         axios                                           //Axios call: Sends an HTTP GET request to our Node.js API endpoint
             .get(`http://localhost:5000/api/data?search=${encodeURIComponent(searchInput)}`)
             .then((response) => {
                 setData(response.data);                 //On success, store the returned JSON data in state                      //Update loading state
-                navigate("/results");
+                updateURLParams({ search: searchInput });
             })
             .catch((err) => {
                 console.error(err);
@@ -79,7 +104,9 @@ function Results() {
                                         onClick={() => {
                                             setSelectedBox(row); //Set the selected box on click
                                             setSelectedIndex(index); //Set the selected index
-                                            navigate("/information");
+                                            navigate(
+                                                `/information?search=${encodeURIComponent(searchInput)}&selected=${index}`
+                                            );
                                         }} 
                                     />
                                 </div>

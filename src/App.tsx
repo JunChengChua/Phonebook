@@ -16,7 +16,7 @@ function App() {
             .get(`http://localhost:5000/api/data?search=${encodeURIComponent(searchInput)}`)
             .then((response) => {
                 setData(response.data);                 //On success, store the returned JSON data in state
-                navigate("/results");
+                navigate(`/results?search=${encodeURIComponent(searchInput)}`);
             })
             .catch((err) => {
                 console.error(err);

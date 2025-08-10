@@ -50,7 +50,7 @@ function Information() {
     const handleMouseMove = () => {
         setShowNavButtons(true);
         if (mouseTimeout.current) clearTimeout(mouseTimeout.current);
-        mouseTimeout.current = setTimeout(() => setShowNavButtons(false), 1500);
+        mouseTimeout.current = setTimeout(() => setShowNavButtons(false), 3000);
     };
 
     useEffect(() => {
@@ -250,11 +250,12 @@ function Information() {
                         </div>
 
                         {/* Circular Button Area */}
-                        <div className={`flex-1 w-full flex flex-row justify-center items-center gap-60 z-20 transition-opacity duration-1000 ${showNavButtons ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+                        <div className={"flex-1 w-full flex flex-row justify-center items-center gap-20 z-20"}>
                             {/* Back Button */}
                             <button
                                 type="button"
-                                className="p-6 rounded-full bg-[#dbdbdb] hover:bg-[#a4defc] transition flex items-center justify-center disabled:opacity-0 hover:cursor-pointer disabled:cursor-default"
+                                className={`p-6 rounded-full bg-[#dbdbdb] hover:bg-[#a4defc] flex items-center justify-center disabled:opacity-0 hover:cursor-pointer disabled:cursor-default 
+                                            transition-opacity duration-1000 ${showNavButtons ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
                                 aria-label="Previous"
                                 onClick={() => {
                                     if (
@@ -270,10 +271,18 @@ function Information() {
                                 <span className="material-symbols-outlined text-[2rem]">arrow_back_ios_new</span>
                             </button>
 
+                            {/* Page Indicator */}
+                            {selectedIndex !== null && data.length > 0 && (
+                                <span className="text-lg font-medium">
+                                    {selectedIndex + 1} of {data.length}
+                                </span>
+                            )}
+
                             {/* Next Button */}
                             <button
                                 type="button"
-                                className="p-6 rounded-full bg-[#dbdbdb] hover:bg-[#a4defc] transition flex items-center justify-center disabled:opacity-50 hover:cursor-pointer disabled:cursor-default"
+                                className={`p-6 rounded-full bg-[#dbdbdb] hover:bg-[#a4defc] flex items-center justify-center disabled:opacity-0 hover:cursor-pointer disabled:cursor-default 
+                                            transition-opacity duration-1000 ${showNavButtons ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
                                 aria-label="Next"
                                 onClick={() => {
                                     if (
