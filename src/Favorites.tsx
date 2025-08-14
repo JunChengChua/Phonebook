@@ -81,7 +81,7 @@ const Favorites: React.FC = () => {
 
                         <button
                             type="button"
-                            className="ml-2 p-2 bg-[#bdbdbd] hover:bg-[#a4defc] transition border-2 border-black rounded-xl w-1/10
+                            className="ml-2 p-2 bg-[#bdbdbd] hover:bg-[#a4defc] transition border-0 border-black rounded-xl w-1/10
                                         hover:cursor-pointer flex items-center justify-center"
                             onClick={() => {
                                 handleSearch();

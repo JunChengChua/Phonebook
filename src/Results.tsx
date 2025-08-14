@@ -27,13 +27,25 @@ function Results() {
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const search = searchParams.get("search") || "";
-        if (search) {
-            setSearchInput(search);
-            axios
-                .get(`http://localhost:5000/api/data?search=${encodeURIComponent(search)}`)
-                .then((response) => setData(response.data))
-                .catch((err) => console.error(err));
+        const department = searchParams.get("department") || "";
+
+        let apiURL = `http://localhost:5000/api/data?`;
+
+        // Reset the search input if coming from a department click
+        if (department) {
+            setSearchInput(""); // clear search input
+            apiURL += `department=${encodeURIComponent(department)}`;
+        } else if (search) {
+            setSearchInput(search); // show current search term
+            apiURL += `search=${encodeURIComponent(search)}`;
         }
+
+        console.log("API URL:", apiURL);
+
+        axios
+            .get(apiURL)
+            .then((response) => setData(response.data))
+            .catch((err) => console.error(err));
     }, [location.search]);
 
     const handleSearch = () => {
@@ -41,7 +53,10 @@ function Results() {
             .get(`http://localhost:5000/api/data?search=${encodeURIComponent(searchInput)}`)
             .then((response) => {
                 setData(response.data);                 //On success, store the returned JSON data in state                      //Update loading state
-                updateURLParams({ search: searchInput });
+                updateURLParams({ 
+                    search: searchInput,
+                    department: undefined 
+                });
             })
             .catch((err) => {
                 console.error(err);
@@ -77,7 +92,7 @@ function Results() {
 
                         <button
                             type="button"
-                            className="ml-2 p-2 bg-[#bdbdbd] hover:bg-[#a4defc] transition border-2 border-black rounded-xl w-1/10
+                            className="ml-2 p-2 bg-[#bdbdbd] hover:bg-[#a4defc] transition border-0 border-black rounded-xl w-1/10
                                         hover:cursor-pointer flex items-center justify-center"
                             onClick={() => {
                                 handleSearch();

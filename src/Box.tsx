@@ -17,7 +17,7 @@ const Box: React.FC<BoxProps> = ({ username, name, title, department, phoneNumbe
             onClick={onClick}>
             
             {/* Right-side overlay */}
-            <div className={`absolute top-0 right-0 h-full w-[40%] bg-gradient-to-l from-black/25 to-transparent pointer-events-none rounded-lg z-10
+            <div className={`absolute top-0 right-0 h-full w-[25%] bg-gradient-to-l from-black/25 to-transparent pointer-events-none rounded-lg z-10
                             transition-opacity duration-300 ${selected ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}/>
 
             {/*Picture Div*/}

@@ -16,18 +16,22 @@ const pool = new Pool({
     port: 5432,
   });
 
+//Query for results page coming from either search or department filter
 app.get("/api/data", async (req, res) => {
   try {
-    const {search} = req.query;
-    let query = 'SELECT * FROM "People"'; // Initialize the base query
+    const { search, department } = req.query;
+    let query = 'SELECT * FROM "People"';
     let values = [];
 
     if (search) {
-      query += ' WHERE "name" ILIKE $1 OR "department" ILIKE $1'; //Search in "name" or "department"
-      values.push(`%${search}%`); //Adds wildcards to the search term, done this way to prevent SQL injection
+      query += ' WHERE "name" ILIKE $1 OR "department" ILIKE $1';
+      values.push(`%${search}%`);
+    } else if (department) {
+      query += ' WHERE "department" = $1';
+      values.push(department);
     }
 
-    query += ' ORDER BY "name" ASC'; //Sort by "name" in ascending order
+    query += ' ORDER BY "name" ASC';
 
     const result = await pool.query(query, values);
     res.json(result.rows);
@@ -37,6 +41,7 @@ app.get("/api/data", async (req, res) => {
   }
 });
 
+//Query to get favorites based on usernames
 app.get("/api/favorites", (req, res) => {
   const { usernames } = req.query;
   if (!usernames) {
@@ -60,6 +65,17 @@ app.get("/api/favorites", (req, res) => {
     }
     res.json(result.rows);
   });
+});
+
+//Query to return a list of distinct departments
+app.get("/api/departments", async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT DISTINCT department FROM "People" ORDER BY department ASC`);
+    res.json(result.rows.map(row => row.department));
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
 });
 
 app.listen(port, () => {

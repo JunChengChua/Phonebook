@@ -229,9 +229,11 @@ function Information() {
                                     onClick={toggleFavorite}
                                 >
                                     <span
-                                        className="material-symbols-outlined text-[2rem] text-black group-hover:text-black rounded-[100%]"
+                                        className="material-symbols-outlined text-[2rem] text-[#fff12b] group-hover:text-[#fff12b] rounded-[100%]"
                                         style={{
-                                            fontVariationSettings: `'FILL' ${isFavorite ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`
+                                            fontVariationSettings: `'FILL' ${isFavorite ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`,
+                                            WebkitTextStroke: '1px black', // outline thickness + color
+                                            paintOrder: 'stroke fill',     // ensures outline is behind fill
                                         }}
                                     >
                                         star
@@ -252,23 +254,23 @@ function Information() {
                             </div>
 
                             {/* Primary Information */}
-                            <div className="col-span-3 grid grid-rows-3 w-full shadow-md rounded-lg">
+                            <div className="col-span-3 grid grid-rows-12 w-full shadow-md rounded-lg">
                                 {/* Name */}
                                 <div className="flex justify-center items-center text-center w-full font-bold text-[2.15em]
-                                                bg-[#f9fafb86] rounded-lg row-span-1"
+                                                bg-[#f9fafb86] rounded-lg row-span-6"
                                 >
                                     {selectedBox?.title === "Doctor" ? `Dr. ${selectedBox?.name}` : selectedBox?.name}
                                 </div>
 
                                 {/* Department */}
                                 <div className="flex items-center justify-center text-center w-full text-[1.5em] font-bold
-                                                bg-[#f9fafb86] rounded-lg row-span-1">
+                                                bg-[#f9fafb86] rounded-lg row-span-3">
                                     {selectedBox?.title}
                                 </div>
 
                                 {/* Title */}
                                 <div className="flex items-center justify-center text-center w-full text-[1.5em] font-bold
-                                                bg-[#f9fafb86] rounded-lg row-span-1">
+                                                bg-[#f9fafb86] rounded-lg row-span-3">
                                     {selectedBox?.department}
                                 </div>
                             </div>
