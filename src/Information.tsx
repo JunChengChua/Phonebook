@@ -4,6 +4,7 @@ import axios from 'axios';
 import Box from './Box';
 import Header from './Header';
 import { useSearch } from './SearchContext';
+import Cookies from "js-cookie";
 
 function Information() {
     const { data, setData, selectedBox, selectedIndex, setSelectedBox, setSelectedIndex } = useSearch();
@@ -40,19 +41,21 @@ function Information() {
             });
     };
 
-    // When selecting a box, update the selected param
+    //When selecting a box, update the selected param
     const handleSelectBox = (row: any, index: number) => {
         setSelectedBox(row);
         setSelectedIndex(index);
         updateURLParams({ search: searchInput, selected: index });
     };
 
+    //Handles the fading of the navigation buttons
     const handleMouseMove = () => {
         setShowNavButtons(true);
         if (mouseTimeout.current) clearTimeout(mouseTimeout.current);
         mouseTimeout.current = setTimeout(() => setShowNavButtons(false), 3000);
     };
 
+    //Handles the mouse entering and leaving the details area
     useEffect(() => {
         const detailsDiv = document.getElementById('details-area');
         
@@ -68,6 +71,7 @@ function Information() {
         };
     }, []);
 
+    //Fetch data based on search params when component mounts
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const search = searchParams.get("search") || "";
@@ -89,7 +93,40 @@ function Information() {
                     console.error(err);
                 });
         }
-    }, [location.search]); // Only run on mount or when location.search changes
+    }, [location.search]);
+
+    //This is for the favorite star button
+    useEffect(() => {
+        if (selectedBox?.username) {
+            const favorites = JSON.parse(Cookies.get("favorites") || "[]") as string[];
+            console.log("Favorites cookie:", favorites);
+            setIsFavorite(favorites.includes(selectedBox.username));
+        }
+    }, [selectedBox]);
+
+    const toggleFavorite = () => {
+        const username = selectedBox?.username;
+        if (!username) return;
+
+        // Get current favorites from cookie or start with empty array
+        let favorites: string[] = [];
+        
+        try {
+            favorites = JSON.parse(Cookies.get("favorites") || "[]") as string[];
+        } catch (err) {
+            favorites = [];
+        }
+
+        if (favorites.includes(username)) {
+            favorites = favorites.filter(fav => fav !== username); //Remove from favorites
+            setIsFavorite(false); //Update the favorite state
+        } else {
+            favorites.push(username); //Add to favorites
+            setIsFavorite(true); //Update the favorite state
+        }
+
+        Cookies.set("favorites", JSON.stringify(favorites), { expires: 365 });
+    };
     
     return (
         <div className="flex flex-col h-screen bg-gradient-to-b from-[#dadadaa7] from-35% to-[#9eddfc] w-full 
@@ -145,7 +182,8 @@ function Information() {
                                                 title={row.title} 
                                                 department={row.department} 
                                                 phoneNumber={row.phoneNumber} 
-                                                mail={row.mail} 
+                                                mail={row.mail}
+                                                selected={selectedIndex === index} 
                                                 onClick={() => {
                                                     setSelectedBox(row); //Set the selected box on click
                                                     setSelectedIndex(index); //Set the selected index
@@ -172,7 +210,11 @@ function Information() {
                                             hover:cursor-pointer group"
                                     aria-label="Close"
                                     onClick={() => {
-                                        navigate("/results");
+                                        setSelectedBox(null);
+                                        setSelectedIndex(null);
+                                        const searchParams = new URLSearchParams(location.search);
+                                        const search = searchParams.get("search") || "";
+                                        navigate(`/results${search ? `?search=${encodeURIComponent(search)}` : ""}`);
                                     }}
                                 >
                                     <span className="material-symbols-outlined text-[2rem] transition-transform duration-500 group-hover:rotate-[270deg]">close</span>
@@ -184,9 +226,7 @@ function Information() {
                                     className="p-2 flex items-center justify-center rounded-[100%] bg-[#dbdbdb] hover:bg-[#a4defc] transition
                                             hover:cursor-pointer group"
                                     aria-label="Favorite"
-                                    onClick={() => {
-                                        setIsFavorite(!isFavorite);
-                                    }}
+                                    onClick={toggleFavorite}
                                 >
                                     <span
                                         className="material-symbols-outlined text-[2rem] text-black group-hover:text-black rounded-[100%]"
@@ -217,7 +257,7 @@ function Information() {
                                 <div className="flex justify-center items-center text-center w-full font-bold text-[2.15em]
                                                 bg-[#f9fafb86] rounded-lg row-span-1"
                                 >
-                                    {selectedBox?.name}
+                                    {selectedBox?.title === "Doctor" ? `Dr. ${selectedBox?.name}` : selectedBox?.name}
                                 </div>
 
                                 {/* Department */}

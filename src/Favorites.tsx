@@ -1,16 +1,32 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Box from './Box';
-import Header from './Header';
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
+import Box from "./Box";
+import Header from "./Header";
 import { useSearch } from './SearchContext';
 
-function Results() {
-    const { data, setData, setSelectedBox, selectedIndex, setSelectedIndex } = useSearch();
+const Favorites: React.FC = () => {
+    const { setSelectedBox, setSelectedIndex } = useSearch();
+    const [favoritesData, setFavoritesData] = useState<any[]>([]);
     const [searchInput, setSearchInput] = useState<string>(''); //State to manage the search input
-    
+
     const navigate = useNavigate();
-    const location = useLocation();
+
+    useEffect(() => {
+        const favorites = JSON.parse(Cookies.get("favorites") || "[]");
+
+        if (favorites.length > 0) {
+            axios
+                .get(`http://localhost:5000/api/favorites?usernames=${encodeURIComponent(favorites.join(","))}`)
+                .then((res) => {
+                    setFavoritesData(res.data); // <-- now this is your list for the Boxes
+                })
+                .catch((err) => console.error(err));
+        } else {
+            setFavoritesData([]);
+        }
+    }, []);
 
     const updateURLParams = (params: Record<string, string | number | undefined>) => {
         const searchParams = new URLSearchParams(location.search);
@@ -24,23 +40,11 @@ function Results() {
         navigate({ pathname: "/results", search: searchParams.toString() });
     };
 
-    useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
-        const search = searchParams.get("search") || "";
-        if (search) {
-            setSearchInput(search);
-            axios
-                .get(`http://localhost:5000/api/data?search=${encodeURIComponent(search)}`)
-                .then((response) => setData(response.data))
-                .catch((err) => console.error(err));
-        }
-    }, [location.search]);
-
     const handleSearch = () => {
         axios                                           //Axios call: Sends an HTTP GET request to our Node.js API endpoint
             .get(`http://localhost:5000/api/data?search=${encodeURIComponent(searchInput)}`)
             .then((response) => {
-                setData(response.data);                 //On success, store the returned JSON data in state                      //Update loading state
+                setFavoritesData(response.data);                 //On success, store the returned JSON data in state                      //Update loading state
                 updateURLParams({ search: searchInput });
             })
             .catch((err) => {
@@ -49,11 +53,11 @@ function Results() {
     };
 
     return (
-        //The root contianer
+        //The Root Container
         <div className="flex flex-col h-screen bg-gradient-to-b from-[#dadadaa7] from-35% to-[#9eddfc] w-full 
                         bg-auto relative">
             {/* Header Section */}
-            <Header />
+                <Header />
 
             {/* Body */}
             <div className={"flex flex-grow h-[87%] m-4 mt-2.5 rounded-md bg-[#ffffff65] shadow-lg"}>
@@ -91,33 +95,42 @@ function Results() {
                     {/*Container for Results*/}
                     <div className="flex justify-center w-full pl-4 pr-4 flex-grow min-h-0">
                         <div className="grid grid-cols-4 auto-rows-[128px] gap-4 mt-9 w-full max-h-[65vh] overflow-y-auto pl-1 pr-1 pb-1.5 pt-1">
-                            {data.map((row, index) => ( //Map through the data and create a Box for each entry
-                                <div key={index} className="shadow-md bg-transparent rounded-lg">
-                                    <Box 
-                                        key={index} 
-                                        username={row.username} 
-                                        name={row.name} 
-                                        title={row.title} 
-                                        department={row.department} 
-                                        phoneNumber={row.phoneNumber} 
-                                        mail={row.mail} 
-                                        selected={selectedIndex === index}
-                                        onClick={() => {
-                                            setSelectedBox(row); //Set the selected box on click
-                                            setSelectedIndex(index); //Set the selected index
-                                            navigate(
-                                                `/information?search=${encodeURIComponent(searchInput)}&selected=${index}`
-                                            );
-                                        }}
-                                    />
-                                </div>
-                            ))}
+                            {favoritesData.length > 0 ? (
+                                favoritesData.map((row, index) => (
+                                    <div key={index} className="shadow-md bg-transparent rounded-lg">
+                                        <Box
+                                            username={row.username}
+                                            name={row.name}
+                                            title={row.title}
+                                            department={row.department}
+                                            phoneNumber={row.phoneNumber}
+                                            mail={row.mail}
+                                            onClick={() => {
+                                                setSelectedBox(row);
+                                                setSelectedIndex(index);
+
+                                                // Get current search from URL
+                                                const params = new URLSearchParams(location.search);
+                                                const search = params.get("search") || "";
+
+                                                navigate(
+                                                    `/information?search=${encodeURIComponent(search)}&selected=${index}`
+                                                );
+                                            }}
+                                        />
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="col-span-4 text-center text-gray-500 mt-20">
+                                    No favorites yet.
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
-export default Results;
+export default Favorites;

@@ -37,6 +37,31 @@ app.get("/api/data", async (req, res) => {
   }
 });
 
+app.get("/api/favorites", (req, res) => {
+  const { usernames } = req.query;
+  if (!usernames) {
+    return res.json([]);
+  }
+
+  // Convert comma-separated string to array
+  const usernameList = usernames.split(",");
+
+  // Example for PostgreSQL — adjust table/column names to your DB
+  const query = `
+    SELECT *
+    FROM "People"
+    WHERE username = ANY($1)
+  `;
+
+  pool.query(query, [usernameList], (err, result) => {
+    if (err) {
+      console.error("Error fetching favorites:", err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
+    res.json(result.rows);
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });

@@ -10,6 +10,8 @@ function App() {
     const [searchInput, setSearchInput] = useState<string>(''); //State to manage the search input
     const [searched, setSearched] = useState<boolean>(false); //State to manage the searched data
     const [isHoveringEmptySpace, setIsHoveringEmptySpace] = useState(false); //State to manage the hover state of the empty space
+    const [isHoveringFavorites, setIsHoveringFavorites] = useState(false);
+    const [isHoveringDepartments, setIsHoveringDepartments] = useState(false);
 
     const handleSearch = () => {
         axios                                           //Axios call: Sends an HTTP GET request to our Node.js API endpoint
@@ -68,12 +70,16 @@ function App() {
                             onMouseLeave={() => setIsHoveringEmptySpace(false)}>
                         </div>
                         
-                        <button className={`text-black cursor-pointer h-full w-40 font-bold text-[1.15em] transition-all duration-300 
-                                            ease-in-out hover:bg-[#a4defc] ${isHoveringEmptySpace ? '' : 'group-hover:w-30 hover:w-50'}
-                                            `}
+                        <button 
+                            className={`text-black cursor-pointer h-full w-40 font-bold transition-all duration-300 
+                                        ease-in-out hover:bg-[#a4defc]
+                                        ${isHoveringFavorites ? 'text-base' : 'text-lg'}
+                                        ${isHoveringEmptySpace ? '' : 'group-hover:w-30 hover:w-50'}`}
+                            onMouseEnter={() => setIsHoveringDepartments(true)}
+                            onMouseLeave={() => setIsHoveringDepartments(false)}
                         >
-                            Departments
-                        </button>
+                        Departments
+                    </button>
                     </div>
 
                     {/* Favorites Button */}
@@ -81,12 +87,17 @@ function App() {
                         {/* Custom Border 2*/}
                         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-[70%] w-[1.65px] bg-[#d3d3d3]"></div>
 
-                        <button className={`text-black cursor-pointer h-full w-40 font-bold text-[1.15em] transition-all duration-300 
-                                            ease-in-out hover:bg-[#a4defc] ${isHoveringEmptySpace ? '' : 'group-hover:w-30 hover:w-50'}
-                                            `}
+                        <button 
+                            className={`text-black cursor-pointer h-full w-40 font-bold transition-all duration-300 
+                                        ease-in-out hover:bg-[#a4defc]
+                                        ${isHoveringDepartments ? 'text-base' : 'text-lg'}
+                                        ${isHoveringEmptySpace ? '' : 'group-hover:w-30 hover:w-50'}`}
+                            onMouseEnter={() => setIsHoveringFavorites(true)}
+                            onMouseLeave={() => setIsHoveringFavorites(false)}
+                            onClick={() => navigate("/favorites")}
                         >
-                            Favorites
-                        </button>
+                        Favorites
+                    </button>
                     </div>
                 </div>
             </div>

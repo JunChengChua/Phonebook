@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './src/App.tsx';
-import Box from './src/Box.tsx';
 import Results from './src/Results.tsx';
+import Favorites from './src/Favorites.tsx';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import './styles/indexStyle.css';
 import { SearchProvider } from './src/SearchContext.tsx';
@@ -21,6 +21,10 @@ let router = createBrowserRouter ([
     {
         path: "/information",
         element: <Information />
+    },
+    {
+        path: "/favorites",
+        element: <Favorites />
     },
 ]);
 

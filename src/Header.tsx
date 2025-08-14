@@ -1,12 +1,27 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Logo from './Logo';
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSearch } from './SearchContext';
 
 
 const Header: React.FC = () => {
     const [isHoveringEmptySpace, setIsHoveringEmptySpace] = useState(false); //State to manage the hover state of the empty space
     const [isHoveringFavorites, setIsHoveringFavorites] = useState(false);
     const [isHoveringDepartments, setIsHoveringDepartments] = useState(false);
+    const { setSelectedIndex, setSelectedBox } = useSearch(); 
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const params = new URLSearchParams(location.search);
+    const search = params.get("search") || "";
+
+    const goToFavorites = () => {
+        setSelectedIndex(null);
+        setSelectedBox(null);
+        navigate(`/favorites?search=${encodeURIComponent(search)}`);
+    };
 
     return (
         <div className="grid grid-cols-3 items-center h-[10%] m-4 mb-2.5 rounded-md bg-[#ffffff55] shadow-lg"> 
@@ -48,8 +63,10 @@ const Header: React.FC = () => {
                 {/* Favorites Button */}
                 <div className="relative flex items-center h-full">
                     {/* Custom Border 2*/}
-                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-[70%] w-[1.15px] bg-[#d3d3d3]"></div>
-
+                    <div 
+                        className="absolute left-0 top-1/2 transform -translate-y-1/2 h-[70%] w-[1.15px] bg-[#d3d3d3]">
+                    </div>
+                    
                     <button 
                         className={`text-black cursor-pointer h-full w-40 font-bold transition-all duration-300 
                                     ease-in-out hover:bg-[#a4defc]
@@ -57,6 +74,7 @@ const Header: React.FC = () => {
                                     ${isHoveringEmptySpace ? '' : 'group-hover:w-30 hover:w-50'}`}
                         onMouseEnter={() => setIsHoveringFavorites(true)}
                         onMouseLeave={() => setIsHoveringFavorites(false)}
+                        onClick={goToFavorites}
                     >
                         Favorites
                     </button>

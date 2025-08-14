@@ -25,6 +25,7 @@
     "express": "^5.1.0",
     "glob": "^11.0.1",
     "inflight": "^1.0.6",
+    "js-cookie": "^3.0.5",
     "pg": "^8.15.1",
     "phonebook": "file:",
     "react": "^19.1.0",
@@ -33,6 +34,7 @@
     "vite": "^6.2.3"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
