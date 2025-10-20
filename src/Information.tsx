@@ -129,8 +129,14 @@ function Information() {
     };
     
     return (
-        <div className="flex flex-col h-screen bg-gradient-to-b from-[#dadadaa7] from-35% to-[#9eddfc] w-full 
-                        bg-auto relative">
+        <div
+            className="flex flex-col h-screen w-full bg-auto relative"
+            style={{
+                backgroundImage: `linear-gradient(rgba(250,251,252,0.6), rgba(234,242,248,0.6)), url('/images/clean-background-v2.png')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+            }}
+        >
             {/* Header Section */}
             <Header />
 

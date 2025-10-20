@@ -92,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({ showDirectoryTitle = true }) => {
             {/* Extra Div To Center The Elements*/}
             <div className="text-center">
                 {showDirectoryTitle && (
-                    <h1 className="font-bold text-[2.75em]">TBHC Directory</h1>
+                    <h1 className="text-[2.75em]">Phonebook</h1>
                 )}
             </div>
 
@@ -114,10 +114,11 @@ const Header: React.FC<HeaderProps> = ({ showDirectoryTitle = true }) => {
                     </div>
                     
                     <button 
-                        className={`text-black cursor-pointer h-full font-bold transition-all duration-300 
+                        className={`text-black cursor-pointer h-full transition-all duration-300 
                                     ease-in-out hover:bg-[#a4defc] ${favoritesWidth} ${favoritesTextSize}
                                     ${isHoveringDepartments ? 'text-base' : 'text-lg'}
                                     ${showDropdown || isHoveringEmptySpace ? '' : 'hover:w-50'}`}
+                        style={{ fontFamily: '"DM Serif Text", serif', fontWeight: 400 }}
                         onMouseEnter={() => !showDropdown && setIsHoveringFavorites(true)}
                         onMouseLeave={() => !showDropdown && setIsHoveringFavorites(false)}
                         onClick={goToFavorites}
@@ -134,10 +135,11 @@ const Header: React.FC<HeaderProps> = ({ showDirectoryTitle = true }) => {
                     </div>
 
                     <button
-                        className={`text-black cursor-pointer h-full font-bold transition-all duration-300 
+                        className={`text-black cursor-pointer h-full transition-all duration-300 
                                     ease-in-out hover:bg-[#a4defc] ${departmentsWidth} ${departmentsTextSize}
                                     ${isHoveringFavorites ? 'text-base' : 'text-lg'}
                                     ${showDropdown || isHoveringEmptySpace ? '' : 'hover:w-50'}`}
+                        style={{ fontFamily: '"DM Serif Text", serif', fontWeight: 400 }}
                         onMouseEnter={() => !showDropdown && setIsHoveringDepartments(true)}
                         onMouseLeave={() => !showDropdown && setIsHoveringDepartments(false)}
                         onClick={() => setShowDropdown((prev) => !prev)}

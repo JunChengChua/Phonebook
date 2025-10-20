@@ -22,3 +22,9 @@
 .side-shadow {
   box-shadow: 5px 0 10px -5px black, -5px 0 10px -5px black;
 }
+
+/* Global heading styles */
+h1 {
+  font-family: 'DM Serif Text', serif;
+  font-weight: 400;
+}
