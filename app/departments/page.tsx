@@ -2,7 +2,7 @@
 
 import { LuSearch, LuPhone, LuClock, LuMapPin } from "react-icons/lu";
 import { useState, useMemo } from 'react';
-import rawData from '@/data/departments'
+import rawData from '@/data/departments.json'
 import { transformDepartments } from '@/lib/transformDepartments';
 
 export default function DepartmentsPage() {

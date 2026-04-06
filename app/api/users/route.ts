@@ -29,14 +29,14 @@ export async function GET() {
   try {
     const client = await clientPromise;
 
-    const db = client.db("Users");
+    const db = client.db("UserInfo");
     // const users = await db
     //   .collection("UserInfo")
     //   .find({})
     //   .toArray();
 
     const users = await db
-      .collection("UserInfo")
+      .collection("Users")
       .find({})
       .toArray();
 
