@@ -8,19 +8,21 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
-
   nginx:
     image: nginx:latest
     container_name: nginx_proxy
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - ./ssl:/etc/nginx/ssl
     depends_on:
       - phonebook
   phonebook:
     build:
       context: .
+    env_file:
+      - .env
     environment:
       NODE_ENV: production
     ports:
